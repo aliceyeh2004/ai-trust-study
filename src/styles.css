@@ -1,0 +1,755 @@
+:root {
+  --ink: #050303;
+  --muted: rgba(5, 3, 3, 0.62);
+  --peach: #ffa98f;
+  --peach-dark: #f18f75;
+  --sage: #cfe2bb;
+  --cream: #fffdf8;
+  --panel: rgba(255, 253, 248, 0.72);
+  --line: rgba(10, 8, 6, 0.12);
+  --shadow: 0 28px 90px rgba(210, 125, 93, 0.16);
+  color-scheme: light;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.study-frame {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #fffef9;
+}
+
+.ambient-star {
+  position: fixed;
+  inset: -10vh -10vw;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ambient-star::before,
+.ambient-star::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.ambient-star::before {
+  background:
+    radial-gradient(ellipse 20% 22% at 50% 50%, rgba(201, 233, 190, 0.72), transparent 68%),
+    radial-gradient(ellipse 16% 53% at 50% 50%, rgba(255, 126, 126, 0.66), transparent 70%),
+    radial-gradient(ellipse 58% 15% at 50% 50%, rgba(255, 113, 130, 0.68), transparent 70%),
+    radial-gradient(ellipse 72% 9% at 50% 50%, rgba(255, 229, 96, 0.56), transparent 72%),
+    radial-gradient(ellipse 13% 76% at 50% 50%, rgba(255, 171, 64, 0.42), transparent 72%);
+  filter: blur(34px);
+  opacity: 0.92;
+}
+
+.ambient-star::after {
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 50%, transparent 0 34%, rgba(255, 254, 249, 0.6) 65%),
+    linear-gradient(90deg, rgba(255, 254, 249, 0.92), transparent 17% 83%, rgba(255, 254, 249, 0.92)),
+    linear-gradient(180deg, rgba(255, 254, 249, 0.92), transparent 18% 82%, rgba(255, 254, 249, 0.92));
+}
+
+.screen-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.center-page .screen-content,
+.notice-page .screen-content {
+  display: grid;
+  place-items: center;
+  padding: 42px;
+}
+
+.hello-title {
+  font-size: 3.2rem;
+  font-weight: 400;
+}
+
+.bottom-button {
+  position: fixed;
+  left: 50%;
+  bottom: 68px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.pill-button {
+  min-width: 150px;
+  min-height: 62px;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 34px;
+  background: var(--peach);
+  color: #fffdf8;
+  box-shadow: 0 10px 24px rgba(238, 139, 112, 0.22);
+  font-size: 2rem;
+  line-height: 1;
+  transition:
+    transform 140ms ease,
+    background 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.pill-button:hover {
+  background: var(--peach-dark);
+  box-shadow: 0 13px 28px rgba(238, 139, 112, 0.28);
+  transform: translateY(-1px);
+}
+
+.bottom-button.pill-button:hover {
+  transform: translate(-50%, -1px);
+}
+
+.pill-button.secondary {
+  background: rgba(255, 253, 248, 0.78);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.notice-copy {
+  width: min(860px, 90vw);
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+  text-align: center;
+}
+
+.notice-copy h1 {
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
+.notice-copy p {
+  max-width: 780px;
+  color: rgba(5, 3, 3, 0.72);
+  font-size: 1.18rem;
+  line-height: 1.45;
+}
+
+.participant-chip {
+  position: fixed;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+}
+
+.demographic-step {
+  display: grid;
+  gap: 44px;
+  justify-items: center;
+}
+
+.pill-field {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.pill-field span {
+  font-size: 2.28rem;
+  line-height: 1;
+}
+
+.pill-field input,
+.pill-field select {
+  width: 220px;
+  height: 66px;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 28px;
+  background: var(--peach);
+  color: #fffdf8;
+  outline: none;
+  box-shadow: 0 8px 18px rgba(238, 139, 112, 0.16);
+  font-size: 1.45rem;
+  text-align: center;
+}
+
+.pill-field select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #fffdf8 50%),
+    linear-gradient(135deg, #fffdf8 50%, transparent 50%);
+  background-position:
+    calc(100% - 36px) 28px,
+    calc(100% - 22px) 28px;
+  background-size:
+    14px 14px,
+    14px 14px;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+
+.pill-field select:valid {
+  color: #fffdf8;
+}
+
+.pill-field select option {
+  color: var(--ink);
+  background: #fffdf8;
+}
+
+.step-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.step-actions .pill-button {
+  min-height: 52px;
+  min-width: 120px;
+  font-size: 1.35rem;
+}
+
+.instruction-copy {
+  width: min(1500px, 92vw);
+  display: grid;
+  gap: 18px;
+  text-align: center;
+}
+
+.instruction-copy p {
+  font-size: 2.75rem;
+  line-height: 1.25;
+}
+
+.completion-copy {
+  width: min(980px, 90vw);
+  display: grid;
+  gap: 20px;
+  text-align: center;
+}
+
+.completion-copy h1 {
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.completion-copy p {
+  font-size: 2rem;
+}
+
+.trial-page .screen-content {
+  min-height: 100vh;
+  padding: 28px 58px 210px;
+}
+
+.progress-wrap {
+  position: fixed;
+  top: 26px;
+  left: 50%;
+  width: min(520px, calc(100vw - 48px));
+  transform: translateX(-50%);
+  display: grid;
+  gap: 10px;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: rgba(5, 3, 3, 0.62);
+}
+
+.progress-label {
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(5, 3, 3, 0.08);
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #fff6a6, #ffa98f, #ef7ee8);
+}
+
+.chat-stage {
+  position: relative;
+  min-height: calc(100vh - 240px);
+}
+
+.ready-card {
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  width: min(650px, calc(100vw - 40px));
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transform: translate(-50%, -50%);
+  padding: 24px;
+  border: 1px solid rgba(5, 3, 3, 0.06);
+  border-radius: 28px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.ready-card p {
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+
+.ready-card .pill-button {
+  min-height: 54px;
+  min-width: 210px;
+  font-size: 1.25rem;
+}
+
+.ai-avatar {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--sage);
+  color: rgba(5, 3, 3, 0.74);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 800;
+}
+
+.loading-cue {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 2.7rem;
+  line-height: 1;
+}
+
+.animated-dots {
+  display: inline-flex;
+  gap: 9px;
+  transform: translateY(-1px);
+}
+
+.animated-dots i {
+  width: 13px;
+  height: 13px;
+  display: block;
+  border-radius: 50%;
+  background: rgba(5, 3, 3, 0.78);
+  animation: loadingDot 900ms ease-in-out infinite;
+}
+
+.animated-dots i:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.animated-dots i:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.animated-dots i:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+.ai-response {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: min(920px, calc(100vw - 72px));
+  display: flex;
+  gap: 18px;
+  transform: translateX(-50%);
+  padding: 26px 30px;
+  border-radius: 34px;
+  background: rgba(255, 253, 248, 0.78);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.ai-response p {
+  font-size: 1.55rem;
+  line-height: 1.45;
+}
+
+.confidence-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  z-index: 5;
+  display: grid;
+  gap: 14px;
+  padding: 0 54px;
+}
+
+.confidence-question {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.slider-row > span {
+  min-width: 112px;
+  font-size: 2rem;
+}
+
+.slider-row > span:last-child {
+  text-align: right;
+}
+
+.confidence-slider {
+  width: 100%;
+  height: 48px;
+  appearance: none;
+  background: transparent;
+  outline: none;
+}
+
+.confidence-slider::-webkit-slider-runnable-track {
+  height: 48px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #fff7a9 0%, #ffd7bf 47%, #ee78e8 100%);
+}
+
+.confidence-slider::-moz-range-track {
+  height: 48px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #fff7a9 0%, #ffd7bf 47%, #ee78e8 100%);
+}
+
+.confidence-slider::-webkit-slider-thumb {
+  width: 76px;
+  height: 76px;
+  margin-top: -14px;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow: 0 10px 20px rgba(112, 132, 94, 0.18);
+}
+
+.confidence-slider::-moz-range-thumb {
+  width: 76px;
+  height: 76px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow: 0 10px 20px rgba(112, 132, 94, 0.18);
+}
+
+.error-text {
+  color: #9f2c2c;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+}
+
+.admin-page .screen-content,
+.admin-login .screen-content {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+}
+
+.admin-card {
+  width: min(1280px, calc(100vw - 40px));
+  max-height: calc(100vh - 60px);
+  overflow: auto;
+  border: 1px solid rgba(5, 3, 3, 0.08);
+  border-radius: 22px;
+  padding: 26px;
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.admin-card.narrow {
+  width: min(440px, calc(100vw - 40px));
+  display: grid;
+  gap: 14px;
+}
+
+.admin-card h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
+.admin-card h2 {
+  margin: 22px 0 10px;
+  font-size: 1rem;
+}
+
+.admin-card p {
+  color: var(--muted);
+}
+
+.admin-card input,
+.admin-card select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(5, 3, 3, 0.14);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #fffdf8;
+}
+
+.admin-card .pill-button {
+  min-height: 44px;
+  min-width: 92px;
+  padding: 10px 18px;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+}
+
+.admin-header,
+.admin-actions,
+.admin-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-header {
+  justify-content: space-between;
+}
+
+.admin-filters {
+  margin-top: 20px;
+}
+
+.admin-filters label {
+  display: grid;
+  gap: 5px;
+  min-width: 220px;
+}
+
+.admin-filters span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.table-wrap {
+  overflow: auto;
+  border: 1px solid rgba(5, 3, 3, 0.08);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(5, 3, 3, 0.08);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #fff8ef;
+}
+
+@keyframes loadingDot {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: translateY(0);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 900px) {
+  .center-page .screen-content,
+  .notice-page .screen-content {
+    padding: 24px;
+  }
+
+  .notice-copy {
+    gap: 34px;
+  }
+
+  .notice-copy h1,
+  .completion-copy h1 {
+    font-size: 1.9rem;
+  }
+
+  .notice-copy p,
+  .completion-copy p {
+    font-size: 1rem;
+  }
+
+  .hello-title {
+    font-size: 2.6rem;
+  }
+
+  .pill-field {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .pill-field span {
+    font-size: 1.85rem;
+  }
+
+  .pill-field input,
+  .pill-field select {
+    width: 200px;
+    height: 58px;
+    font-size: 1.18rem;
+  }
+
+  .instruction-copy p {
+    font-size: 1.65rem;
+  }
+
+  .trial-page .screen-content {
+    padding: 88px 20px 250px;
+  }
+
+  .loading-cue {
+    left: 24px;
+    font-size: 2rem;
+  }
+
+  .animated-dots i {
+    width: 10px;
+    height: 10px;
+  }
+
+  .ai-response {
+    top: 15%;
+    width: calc(100vw - 28px);
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .ai-response p,
+  .ready-card p {
+    font-size: 1.12rem;
+  }
+
+  .confidence-panel {
+    padding: 0 14px;
+  }
+
+  .confidence-question {
+    font-size: 1.08rem;
+  }
+
+  .slider-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .slider-row > span {
+    min-width: 0;
+    font-size: 1.35rem;
+  }
+
+  .slider-row > span:last-child {
+    text-align: left;
+  }
+
+  .confidence-slider,
+  .confidence-slider::-webkit-slider-runnable-track,
+  .confidence-slider::-moz-range-track {
+    height: 38px;
+  }
+
+  .confidence-slider::-webkit-slider-thumb {
+    width: 58px;
+    height: 58px;
+    margin-top: -10px;
+  }
+
+  .confidence-slider::-moz-range-thumb {
+    width: 58px;
+    height: 58px;
+  }
+
+}
+
+@media (max-width: 520px) {
+  .pill-button {
+    min-height: 52px;
+    min-width: 128px;
+    font-size: 1.35rem;
+  }
+
+  .bottom-button {
+    bottom: 34px;
+  }
+
+  .ready-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+}
