@@ -21,12 +21,19 @@ create table if not exists trial_responses (
   statement_id text not null,
   statement_text text not null,
   ground_truth boolean not null,
-  confidence_rating integer not null check (confidence_rating between 1 and 7),
+  confidence_rating integer not null check (confidence_rating between 0 and 10),
   statement_appeared_at timestamptz not null,
   submitted_at timestamptz not null,
   response_time_ms integer not null,
   created_at timestamptz not null default now()
 );
+
+alter table trial_responses
+  drop constraint if exists trial_responses_confidence_rating_check;
+
+alter table trial_responses
+  add constraint trial_responses_confidence_rating_check
+  check (confidence_rating between 0 and 10);
 
 create index if not exists participant_sessions_condition_idx on participant_sessions(condition);
 create index if not exists participant_sessions_participant_id_idx on participant_sessions(participant_id);

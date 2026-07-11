@@ -39,7 +39,7 @@ function StudyApp() {
   const [trialIndex, setTrialIndex] = useState(0);
   const [trialPhase, setTrialPhase] = useState<TrialPhase>("ready");
   const [appearedAt, setAppearedAt] = useState<string | null>(null);
-  const [rating, setRating] = useState(4);
+  const [rating, setRating] = useState(experimentConfig.ratingScale.defaultValue);
   const [error, setError] = useState("");
   const submitLock = useRef(false);
 
@@ -71,7 +71,7 @@ function StudyApp() {
     setTrialIndex(0);
     setTrialPhase("ready");
     setAppearedAt(null);
-    setRating(4);
+    setRating(experimentConfig.ratingScale.defaultValue);
     setError("");
     submitLock.current = false;
     setPage("welcome");
@@ -146,7 +146,7 @@ function StudyApp() {
     setTrialIndex((current) => current + 1);
     setTrialPhase("ready");
     setAppearedAt(null);
-    setRating(4);
+    setRating(experimentConfig.ratingScale.defaultValue);
     submitLock.current = false;
   }
 

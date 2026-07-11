@@ -8,6 +8,14 @@ export const experimentConfig = {
     min: 1500,
     max: 3000,
   },
+  ratingScale: {
+    min: 0,
+    max: 10,
+    step: 1,
+    defaultValue: 5,
+    lowLabel: "Unsure",
+    highLabel: "Sure",
+  },
   admin: {
     password: import.meta.env.VITE_ADMIN_PASSWORD || "research-admin",
   },
@@ -27,6 +35,7 @@ export const experimentConfig = {
   instructions: [
     "You will review a series of informational statements presented by an AI assistant.",
     "For each statement, indicate how confident you are that the statement is true.",
+    "Once you release the mouse or lift your finger after dragging the scale, your answer will be submitted automatically.",
     "Please answer based on your own judgment.",
     "There are no right or wrong answers.",
   ],
@@ -62,13 +71,17 @@ export const conditions: ExperimentCondition[] = [
 ];
 
 export const likertScale: LikertOption[] = [
-  { value: 1, label: "Definitely False" },
-  { value: 2, label: "Probably False" },
-  { value: 3, label: "Slightly False" },
-  { value: 4, label: "Unsure" },
-  { value: 5, label: "Slightly True" },
-  { value: 6, label: "Probably True" },
-  { value: 7, label: "Definitely True" },
+  { value: 0, label: "Not confident at all" },
+  { value: 1, label: "1" },
+  { value: 2, label: "2" },
+  { value: 3, label: "3" },
+  { value: 4, label: "4" },
+  { value: 5, label: "Unsure" },
+  { value: 6, label: "6" },
+  { value: 7, label: "7" },
+  { value: 8, label: "8" },
+  { value: 9, label: "9" },
+  { value: 10, label: "Completely confident" },
 ];
 
 export const statements: StatementItem[] = [

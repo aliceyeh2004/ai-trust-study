@@ -1,3 +1,5 @@
+import { experimentConfig } from "../config/experimentConfig";
+
 interface ConfidenceSliderProps {
   value: number;
   isSaving: boolean;
@@ -6,6 +8,8 @@ interface ConfidenceSliderProps {
 }
 
 export function ConfidenceSlider({ value, isSaving, onChange, onCommit }: ConfidenceSliderProps) {
+  const { min, max, step, lowLabel, highLabel } = experimentConfig.ratingScale;
+
   function commitRating(committedValue: number) {
     if (isSaving) return;
     onCommit(committedValue);
@@ -15,13 +19,13 @@ export function ConfidenceSlider({ value, isSaving, onChange, onCommit }: Confid
     <section className="confidence-panel" aria-label="Confidence rating">
       <div className="confidence-question">How confident are you that this statement is true?</div>
       <div className="slider-row">
-        <span>Unsure</span>
+        <span>{lowLabel}</span>
         <input
           className="confidence-slider"
           type="range"
-          min="1"
-          max="7"
-          step="1"
+          min={min}
+          max={max}
+          step={step}
           value={value}
           onChange={(event) => onChange(Number(event.target.value))}
           onPointerDown={() => onChange(value)}
@@ -32,10 +36,10 @@ export function ConfidenceSlider({ value, isSaving, onChange, onCommit }: Confid
               commitRating(Number(event.currentTarget.value));
             }
           }}
-          aria-label="Confidence rating from 1 to 7"
+          aria-label={`Confidence rating from ${min} to ${max}`}
           disabled={isSaving}
         />
-        <span>Sure</span>
+        <span>{highLabel}</span>
       </div>
     </section>
   );
