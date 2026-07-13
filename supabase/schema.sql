@@ -39,3 +39,41 @@ create index if not exists participant_sessions_condition_idx on participant_ses
 create index if not exists participant_sessions_participant_id_idx on participant_sessions(participant_id);
 create index if not exists trial_responses_participant_id_idx on trial_responses(participant_id);
 create index if not exists trial_responses_condition_idx on trial_responses(condition);
+
+grant usage on schema public to anon;
+grant select, insert, update on participant_sessions to anon;
+grant select, insert on trial_responses to anon;
+
+alter table participant_sessions enable row level security;
+alter table trial_responses enable row level security;
+
+drop policy if exists "Allow public participant inserts" on participant_sessions;
+create policy "Allow public participant inserts"
+  on participant_sessions for insert
+  to anon
+  with check (true);
+
+drop policy if exists "Allow public participant updates" on participant_sessions;
+create policy "Allow public participant updates"
+  on participant_sessions for update
+  to anon
+  using (true)
+  with check (true);
+
+drop policy if exists "Allow public participant dashboard reads" on participant_sessions;
+create policy "Allow public participant dashboard reads"
+  on participant_sessions for select
+  to anon
+  using (true);
+
+drop policy if exists "Allow public response inserts" on trial_responses;
+create policy "Allow public response inserts"
+  on trial_responses for insert
+  to anon
+  with check (true);
+
+drop policy if exists "Allow public response dashboard reads" on trial_responses;
+create policy "Allow public response dashboard reads"
+  on trial_responses for select
+  to anon
+  using (true);

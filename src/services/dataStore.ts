@@ -76,9 +76,14 @@ class SupabaseRestStore implements DataStore {
         this.request(`${experimentConfig.database.participantTable}?select=*&order=started_at.desc`, "GET"),
         this.request(`${experimentConfig.database.responseTable}?select=*&order=submitted_at.desc`, "GET"),
       ]);
+      const localData = await this.fallback.getAdminData();
+
       return {
-        participants: (participants as ParticipantRow[]).map(fromParticipantRow),
-        responses: (responses as ResponseRow[]).map(fromResponseRow),
+        participants: mergeById(
+          (participants as ParticipantRow[]).map(fromParticipantRow),
+          localData.participants,
+        ),
+        responses: mergeById((responses as ResponseRow[]).map(fromResponseRow), localData.responses),
       };
     } catch (error) {
       console.warn("Supabase read failed; using local data.", error);
@@ -96,14 +101,19 @@ class SupabaseRestStore implements DataStore {
   }
 
   private async request(path: string, method: "GET" | "POST" | "PATCH", body?: unknown): Promise<unknown> {
+    const headers: Record<string, string> = {
+      apikey: this.anonKey,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+    };
+
+    if (!this.anonKey.startsWith("sb_publishable_")) {
+      headers.Authorization = `Bearer ${this.anonKey}`;
+    }
+
     const response = await fetch(`${this.url.replace(/\/$/, "")}/rest/v1/${path}`, {
       method,
-      headers: {
-        apikey: this.anonKey,
-        Authorization: `Bearer ${this.anonKey}`,
-        "Content-Type": "application/json",
-        Prefer: "return=representation",
-      },
+      headers,
       body: body ? JSON.stringify(body) : undefined,
     });
 
@@ -222,6 +232,20 @@ function readLocal<T>(key: string): T[] {
 
 function writeLocal<T>(key: string, value: T[]): void {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function mergeById<T extends { id: string }>(primary: T[], fallback: T[]): T[] {
+  const merged = new Map<string, T>();
+
+  for (const item of fallback) {
+    merged.set(item.id, item);
+  }
+
+  for (const item of primary) {
+    merged.set(item.id, item);
+  }
+
+  return Array.from(merged.values());
 }
 
 export const dataStore: DataStore =
