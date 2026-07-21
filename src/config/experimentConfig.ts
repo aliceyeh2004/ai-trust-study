@@ -35,6 +35,7 @@ export const experimentConfig = {
   instructions: [
     "You will review a series of informational statements presented by an AI assistant.",
     "For each statement, indicate how confident you are that the statement is true.",
+    "The scale is labeled Unsure on the left and Sure on the right.",
     "Once you release the mouse or lift your finger after dragging the scale, your answer will be submitted automatically.",
     "Please answer based on your own judgment.",
     "There are no right or wrong answers.",
